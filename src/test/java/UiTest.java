@@ -19,6 +19,7 @@ import static org.openqa.selenium.By.xpath;
 public class UiTest {
 
     WebDriver driver = new ChromeDriver();
+    Switcher switcher = new Switcher();
     private static final String URL = "https://www.youtube.com/results?search_query=";
 
 
@@ -40,20 +41,16 @@ public class UiTest {
 
         List<WebElement> searchList = driver.findElements(
                 By.xpath("//div[@jscontroller and @lang and @data-hveid]"));
-        Assertions.assertEquals(
-                searchList.get(0).findElement(xpath(".//cite")).getText(),
-                "https://www.youtube.com");
+        Assertions.assertEquals("https://www.youtube.com",
+                searchList.get(0).findElement(xpath(".//cite")).getText());
 
-        WebElement youtubeLink = driver.findElement(xpath(" //h3[text()='YouTube: Home']"));
+        WebElement youtubeLink = driver.findElement(xpath("//h3[text()='YouTube: Home']"));
         Wait<WebDriver> wait1 = new WebDriverWait(driver, Duration.ofSeconds(2));
         wait1.until(d -> youtubeLink.isDisplayed());
         youtubeLink.click();
 
-        for (String w : driver.getWindowHandles()) {
-            if (!w.equals(driver.getWindowHandle())) {
-                driver.switchTo().window(w);
-            }
-        }
+        switcher.switchOnNewPage(driver);
+
         Assertions.assertEquals("https://www.youtube.com/", driver.getCurrentUrl());
         WebElement youTubeSearch = driver.findElement(xpath("//input[@id='search']"));
 
@@ -87,7 +84,6 @@ public class UiTest {
     @AfterEach
     public void finish() {
         driver.quit();
-
     }
 }
 
