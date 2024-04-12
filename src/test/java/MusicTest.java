@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
@@ -83,5 +84,10 @@ public class MusicTest {
         Assertions.assertEquals("Mood Music", listOfTitles.get(1).getText());
         Assertions.assertEquals("Unique Performances", listOfTitles.get(2).getText());
         Assertions.assertEquals("Хит-парады", listOfTitles.get(3).getText());
+    }
+
+    @AfterEach
+    public void finish() {
+        driver.quit();
     }
 }
