@@ -49,7 +49,7 @@ public class MusicTest {
         waitYT.until(d -> youtube.isDisplayed());
         youtube.click();
 
-        switcher.switchPAge(driver);
+        switcher.switchPage(driver);
 
         Assertions.assertTrue(driver.getCurrentUrl().contains("https://www.youtube.com"));
 
@@ -63,7 +63,7 @@ public class MusicTest {
         waitMusic.until(d -> music.isDisplayed());
         music.click();
 
-        switcher.switchPAge(driver);
+        switcher.switchPage(driver);
 
         Assertions.assertEquals("https://www.youtube.com/channel/UC-9-kyTW8ZkZNDHQJ6FgpwQ",
                 driver.getCurrentUrl());
