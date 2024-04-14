@@ -17,7 +17,7 @@ import static org.openqa.selenium.By.xpath;
 public class MusicTest {
 
     WebDriver driver = new ChromeDriver();
-    Switcher switcher = new Switcher();
+    SwitcherForMusic switcher = new SwitcherForMusic();
 
     @Test
     public void testMusic() {

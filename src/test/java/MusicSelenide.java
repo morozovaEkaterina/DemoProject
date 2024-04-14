@@ -11,7 +11,7 @@ import static org.openqa.selenium.By.xpath;
  и проверяет, что мы действительно туда зашли и основная статичная информация отображается корректно*/
 
 public class MusicSelenide {
-    Switcher switcher = new Switcher();
+    SwitcherForMusic switcher = new SwitcherForMusic();
 
 
     @Test
@@ -35,8 +35,8 @@ public class MusicSelenide {
 
         SelenideElement yt = $(xpath("//h3[text()='YouTube: Home']"));
         yt.click();
-        switcher.switchPage(Selenide.webdriver().driver().getWebDriver());
-        Assertions.assertTrue(Selenide.webdriver().driver().url().contains("https://www.youtube.com"));
+        switcher.switchPage(webdriver().driver().getWebDriver());
+        Assertions.assertTrue(webdriver().driver().url().contains("https://www.youtube.com"));
 
         SelenideElement menu = $(xpath("//button[@aria-label ='Гид']"));
         menu.should(clickable, exist).click();
@@ -48,10 +48,10 @@ public class MusicSelenide {
             return;
         }
 
-        switcher.switchPage(Selenide.webdriver().driver().getWebDriver());
+        switcher.switchPage(webdriver().driver().getWebDriver());
 
         Assertions.assertEquals("https://www.youtube.com/channel/UC-9-kyTW8ZkZNDHQJ6FgpwQ",
-                Selenide.webdriver().driver().url());
+                webdriver().driver().url());
 
         Assertions.assertEquals("Музыка", $(xpath("//*[@id='text'][text()='Музыка']")).getText());
         Assertions.assertEquals("На этом канале собраны главные музыкальные новинки, а также видео и плейлисты популярных исполнителей. Подпишитесь и следите за музыкальными трендами во всем мире.",
