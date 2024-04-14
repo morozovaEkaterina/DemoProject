@@ -25,7 +25,6 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.10.2</version>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
@@ -46,6 +45,12 @@
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide</artifactId>
+            <version>7.2.3</version>
+            <scope>test</scope>
         </dependency>
 
 
