@@ -1,3 +1,5 @@
+package Task1;
+
 import com.codeborne.selenide.Selenide;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
