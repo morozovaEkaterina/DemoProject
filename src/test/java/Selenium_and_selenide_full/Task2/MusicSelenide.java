@@ -1,3 +1,5 @@
+package Selenium_and_selenide_full.Task2;
+
 import com.codeborne.selenide.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

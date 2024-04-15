@@ -1,4 +1,4 @@
-package Task1;
+package Selenium_and_selenide_full.Task1;
 
 import com.codeborne.selenide.Selenide;
 import org.openqa.selenium.WebDriver;
