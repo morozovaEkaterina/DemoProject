@@ -1,6 +1,7 @@
 package selenide_short_version;
 
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.AfterEach;
 import org.openqa.selenium.WebDriver;
 import selenide_short_version.kinopoisk.Config;
@@ -17,12 +18,12 @@ public class BaseTest {
         Selenide.closeWebDriver();
     }
 
-    public void tabPage(WebDriver driver) {
-        String nowWindow = driver.getWindowHandle();
+    public void switchTab(WebDriver driver, String title) {
+        String nowWindow = driver.getTitle();
         Set<String> pages = driver.getWindowHandles();
         List<String> pagesList = new ArrayList<>(pages);
-        for (String p : pages) {
-            if (!p.equals(nowWindow)) {
+        for (String p : pagesList) {
+            if (nowWindow.contains(title)) {
                 driver.switchTo().window(p);
             }
         }

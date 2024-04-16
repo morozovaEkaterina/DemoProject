@@ -1,4 +1,4 @@
-package Selenium_and_selenide_full.Task2;
+package selenium_and_selenide_full.Task2;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
