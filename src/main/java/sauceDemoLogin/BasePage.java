@@ -28,18 +28,18 @@ public abstract class BasePage<P> {
                 Selenide.webdriver().driver().switchTo().window(page);
             }
         }
-        return (P) this ;
+        return (P) this;
     }
 
     @Step("Check part of URL")
-    public P checkPartOfURL(String url){
+    public P checkPartOfURL(String url) {
         Assertions.assertTrue(Selenide.webdriver().driver().url().contains(url));
-        return (P)this;
+        return (P) this;
     }
 
     @Step("Check URL")
-    public P checkURL(String url){
-        Assertions.assertEquals(url,Selenide.webdriver().driver().url());
-        return (P)this;
+    public P checkURL(String url) {
+        Assertions.assertEquals(url, Selenide.webdriver().driver().url());
+        return (P) this;
     }
 }

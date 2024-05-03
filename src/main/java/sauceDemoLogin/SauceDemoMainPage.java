@@ -21,7 +21,7 @@ public class SauceDemoMainPage extends BasePage<SauceDemoMainPage> {
     public SelenideElement loginBtn = $(xpath("//input[@type='submit']"));
     public ElementsCollection inputErrorForm = $$(xpath("//input[@class='input_error form_input error']"));
     public SelenideElement errorText = $(xpath("//h3[text()='Epic sadface: Sorry, this user has been locked out.']"));
-    public SelenideElement errorBtn =$(xpath("//button[@class='error-button']"));
+    public SelenideElement errorBtn = $(xpath("//button[@class='error-button']"));
 
     @Step
     public static SauceDemoMainPage open(String URL) {
@@ -75,10 +75,10 @@ public class SauceDemoMainPage extends BasePage<SauceDemoMainPage> {
     }
 
     @Step("Check elements in the case of locked out user ")
-    public SauceDemoMainPage checkErrorElements(){
-         Assertions.assertEquals("Epic sadface: Sorry, this user has been locked out.", errorText.getText());
-         Assertions.assertTrue(errorBtn.is(clickable));
-         Assertions.assertEquals(2,inputErrorForm.size());
-         return this;
+    public SauceDemoMainPage checkErrorElements() {
+        Assertions.assertEquals("Epic sadface: Sorry, this user has been locked out.", errorText.getText());
+        Assertions.assertTrue(errorBtn.is(clickable));
+        Assertions.assertEquals(2, inputErrorForm.size());
+        return this;
     }
 }

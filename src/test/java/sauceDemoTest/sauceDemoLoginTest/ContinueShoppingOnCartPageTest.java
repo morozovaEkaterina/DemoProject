@@ -1,21 +1,23 @@
 package sauceDemoTest.sauceDemoLoginTest;
 
-import org.junit.Test;
+import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import sauceDemoLogin.BasePage;
+import org.openqa.selenium.chrome.ChromeOptions;
 import sauceDemoLogin.SauceDemoMainPage;
 
-public class LoginStandartOrVisualUserTest extends BasePage {
+public class ContinueShoppingOnCartPageTest {
 
-    @Test
     @ParameterizedTest
     @CsvSource(value = {"standard_user",
             "visual_user",
             "problem_user",
             "error_user",
             "performance_glitch_user"})
-    public void testStandardOrVisualUser(String username) {
+    public void addToCartTest(String username) {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--guest");
+        Configuration.browserCapabilities = chromeOptions;
         SauceDemoMainPage.open("https://www.saucedemo.com")
                 .checkStaticElements()
                 .clickOnUsernameArea()
@@ -24,6 +26,8 @@ public class LoginStandartOrVisualUserTest extends BasePage {
                 .setPassword("secret_sauce")
                 .clickOnLoginBtnSuccessful()
                 .checkURL("https://www.saucedemo.com/inventory.html")
-                .checkStaticElementsOnProductPage();
+                .clickOnCartBtn()
+                .checkStaticElementsOnCartPage()
+                .clickOnContinueShoppingBtn();
     }
 }

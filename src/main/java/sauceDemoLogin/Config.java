@@ -6,7 +6,7 @@ public class Config {
     private static Config config;
 
     private Config() {
-        //Configuration.pageLoadTimeout = 5000L;
+        Configuration.pageLoadTimeout = 10000L;
 
     }
 

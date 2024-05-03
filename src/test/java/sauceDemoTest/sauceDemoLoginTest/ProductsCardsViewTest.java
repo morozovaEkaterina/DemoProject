@@ -6,23 +6,30 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.chrome.ChromeOptions;
 import sauceDemoLogin.SauceDemoMainPage;
 
-public class LoginLockedOutUserTest {
+public class ProductsCardsViewTest {
     @ParameterizedTest
-    @CsvSource(value = {
-            "locked_out_user"})
-    public void lockedOutUserTest(String username) {
+    @CsvSource(value = {"standard_user",
+            "visual_user",
+            "problem_user",
+            "error_user",
+            "performance_glitch_user"})
+    public void productCardsTest(String username) {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--guest");
         Configuration.browserCapabilities = chromeOptions;
-        SauceDemoMainPage.open("https://www.saucedemo.com/")
+        SauceDemoMainPage.open("https://www.saucedemo.com")
                 .checkStaticElements()
                 .clickOnUsernameArea()
                 .setUsername(username)
                 .clickOnPasswordArea()
                 .setPassword("secret_sauce")
-                .clickOnLoginBtnUnsuccessful()
-                .checkURL("https://www.saucedemo.com/")
-                .checkStaticElements()
-                .checkErrorElements();
+                .clickOnLoginBtnSuccessful()
+                .checkURL("https://www.saucedemo.com/inventory.html")
+                .checkStaticElementsOnProductPage()
+                .checkElemsOnProductsCards()
+                .clickOnProductTitle(5)
+                .checkStaticElemsOnCartPage()
+                .clickOnBackBtn();
     }
 }
+
