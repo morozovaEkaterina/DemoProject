@@ -1,8 +1,6 @@
-package Selenium_and_selenide_full.Task1;
+package selenium_and_selenide_full.Task1;
 
-import com.codeborne.selenide.Selenide;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;

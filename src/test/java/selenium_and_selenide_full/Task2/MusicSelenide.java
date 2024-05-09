@@ -1,4 +1,4 @@
-package Selenium_and_selenide_full.Task2;
+package selenium_and_selenide_full.Task2;
 
 import com.codeborne.selenide.*;
 import org.junit.jupiter.api.AfterEach;
@@ -38,6 +38,7 @@ public class MusicSelenide {
         SelenideElement yt = $(xpath("//h3[text()='YouTube: Home']"));
         yt.click();
         switcher.switchPage(webdriver().driver().getWebDriver());
+
         Assertions.assertTrue(webdriver().driver().url().contains("https://www.youtube.com"));
 
         SelenideElement menu = $(xpath("//button[@aria-label ='Гид']"));
