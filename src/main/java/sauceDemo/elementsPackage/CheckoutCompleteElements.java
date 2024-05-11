@@ -5,7 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Selenide.$;
 import static org.openqa.selenium.By.xpath;
 
-public class SauceDemoCheckoutCompleteElements {
+public class CheckoutCompleteElements {
     public SelenideElement appLogo = $(xpath("//div[text()='Swag Labs']"));
     public SelenideElement pageTitle = $(xpath("//span[text()='Checkout: Complete!']"));
     public SelenideElement shoppingCartLink = $(xpath("//a[@class='shopping_cart_link']"));

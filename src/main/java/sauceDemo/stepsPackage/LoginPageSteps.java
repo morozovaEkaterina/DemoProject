@@ -1,26 +1,32 @@
-package sauceDemo;
+package sauceDemo.stepsPackage;
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import io.qameta.allure.Step;
 
 import org.junit.jupiter.api.Assertions;
-import sauceDemo.elementsPackage.SauceDemoMainPageElements;
-import sauceDemo.methodsPackage.BasePage;
+import org.openqa.selenium.chrome.ChromeOptions;
+import sauceDemo.BaseSteps;
+import sauceDemo.elementsPackage.MainPageElements;
 
 import static com.codeborne.selenide.Condition.*;
 
-public class SauceDemoMainSteps extends BasePage<SauceDemoMainSteps> {
-    SauceDemoMainPageElements mainPageElements = new SauceDemoMainPageElements();
+public class LoginPageSteps extends BaseSteps<LoginPageSteps> {
+    MainPageElements mainPageElements = new MainPageElements();
 
     public static final String URL = "https://www.saucedemo.com";
-    @Step
-    public static SauceDemoMainSteps open(String URL) {
+
+    @Step("Open page {URL} and check static elements")
+    public static LoginPageSteps open(String URL) {
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--guest");
+        Configuration.browserCapabilities = chromeOptions;
         Selenide.open(URL);
-        return new SauceDemoMainSteps();
+        return new LoginPageSteps();
     }
 
-    @Step("Check static elements on the page")
-    public SauceDemoMainSteps checkStaticElements() {
+    @Step("Check static elements")
+    public LoginPageSteps waitPageLoading() {
         Assertions.assertTrue(Selenide.webdriver().driver().getWebDriver().getCurrentUrl()
                 .contains(mainPageElements.loginBtn.getText()));
         Assertions.assertTrue(Selenide.webdriver().driver().getWebDriver().getCurrentUrl()
@@ -32,43 +38,52 @@ public class SauceDemoMainSteps extends BasePage<SauceDemoMainSteps> {
     }
 
     @Step("Click on Username area")
-    public SauceDemoMainSteps clickOnUsernameArea() {
+    public LoginPageSteps clickOnUsernameArea() {
         mainPageElements.inputAreaUserName.should(exist).click();
         return this;
     }
 
     @Step("Set username {username}")
-    public SauceDemoMainSteps setUsername(String username) {
+    public LoginPageSteps setUsername(String username) {
         mainPageElements.inputAreaUserName.sendKeys(username);
         return this;
     }
 
     @Step("Click on password area")
-    public SauceDemoMainSteps clickOnPasswordArea() {
+    public LoginPageSteps clickOnPasswordArea() {
         mainPageElements.inputAreaPassword.should(exist).click();
         return this;
     }
 
     @Step("Set password {password} on password area")
-    public SauceDemoMainSteps setPassword(String password) {
+    public LoginPageSteps setPassword(String password) {
         mainPageElements.inputAreaPassword.sendKeys(password);
         return this;
     }
 
-    @Step("Click on Login button")
-    public SauceDemoProductsSteps clickOnLoginBtnSuccessful() {
-        mainPageElements.loginBtn.should(exist).click();
-        return new SauceDemoProductsSteps();
+    @Step("Successful log in. Inputted username:{username}, password:{password}")
+    public LoginPageSteps successfulLogin(String username, String password) {
+        clickOnUsernameArea();
+        setUsername(username);
+        clickOnPasswordArea();
+        setPassword(password);
+        return this;
     }
 
     @Step("Click on Login button")
-    public SauceDemoMainSteps clickOnLoginBtnUnsuccessful() {
+    public ProductsPageSteps clickOnLoginBtnSuccessful() {
+        mainPageElements.loginBtn.should(exist).click();
+        return new ProductsPageSteps();
+    }
+
+    @Step("Click on Login button")
+    public LoginPageSteps clickOnLoginBtnUnsuccessful() {
         mainPageElements.loginBtn.should(exist).click();
         return this;
     }
 
     @Step("Check elements in the case of locked out user ")
-    public SauceDemoMainSteps checkErrorElements() {
+    public LoginPageSteps checkErrorElements() {
         Assertions.assertEquals("Epic sadface: Sorry, this user has been locked out.", mainPageElements.errorText.getText());
         Assertions.assertTrue(mainPageElements.errorBtn.is(clickable));
         Assertions.assertEquals(2, mainPageElements.inputErrorForm.size());

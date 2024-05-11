@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.openqa.selenium.By.xpath;
 
-public class SauceDemoCheckoutOneStepElements {
+public class CheckoutOneStepElements {
 
     public static final String URL = "https://www.saucedemo.com/checkout-step-one.html";
     public SelenideElement appLogo = $(xpath("//div[text()='Swag Labs']"));
@@ -21,5 +21,7 @@ public class SauceDemoCheckoutOneStepElements {
     public SelenideElement zipInputArea = $(xpath("//input[@name='postalCode']"));
     public SelenideElement errorMessageProblemUser = $(xpath("//h3"));
     public ElementsCollection errorInputFields = $$(xpath("//input[contains(@class,'error')]"));
-    public SelenideElement errorBtn=$(xpath("//button[@class='error-button']"));
+    public SelenideElement errorBtn = $(xpath("//button[@class='error-button']"));
+
+
 }

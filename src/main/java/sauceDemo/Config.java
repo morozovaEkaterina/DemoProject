@@ -1,4 +1,4 @@
-package sauceDemo.methodsPackage;
+package sauceDemo;
 
 import com.codeborne.selenide.Configuration;
 

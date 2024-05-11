@@ -1,10 +1,8 @@
 package sauceDemoTests.elementsOnProductPageTests;
 
-import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.openqa.selenium.chrome.ChromeOptions;
-import sauceDemo.SauceDemoMainSteps;
+import sauceDemo.stepsPackage.LoginPageSteps;
 
 public class AddToCartBtnPageTest {
 
@@ -15,19 +13,14 @@ public class AddToCartBtnPageTest {
             "error_user",
             "performance_glitch_user"})
     public void addToCartTest(String username) {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--guest");
-        Configuration.browserCapabilities = chromeOptions;
-        SauceDemoMainSteps.open("https://www.saucedemo.com")
-                .checkStaticElements()
-                .clickOnUsernameArea()
-                .setUsername(username)
-                .clickOnPasswordArea()
-                .setPassword("secret_sauce")
+        LoginPageSteps.open("https://www.saucedemo.com")
+                .waitPageLoading()
+                .successfulLogin(username,"secret_sauce")
                 .clickOnLoginBtnSuccessful()
                 .checkURL("https://www.saucedemo.com/inventory.html")
                 .clickOnAddBtn(3)
                 .clickOnAddBtn(0)
-                .clickOnRemoveBtn(0);
+                .clickOnRemoveBtn(0)
+                .clickOnRemoveBtn(3);
     }
 }

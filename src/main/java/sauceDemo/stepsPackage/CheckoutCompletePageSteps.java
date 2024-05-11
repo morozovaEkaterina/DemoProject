@@ -1,22 +1,21 @@
-package sauceDemo;
+package sauceDemo.stepsPackage;
 
 import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
-import sauceDemo.elementsPackage.SauceDemoCheckoutCompleteElements;
-import sauceDemo.methodsPackage.BasePage;
+import sauceDemo.BaseSteps;
+import sauceDemo.elementsPackage.CheckoutCompleteElements;
 
-public class SauceDemoCheckoutCompleteSteps<P> extends BasePage<SauceDemoCheckoutCompleteSteps<P>> {
+public class CheckoutCompletePageSteps<P> extends BaseSteps<CheckoutCompletePageSteps<P>> {
     P parent;
-    SauceDemoCheckoutCompleteElements completeElements = new SauceDemoCheckoutCompleteElements();
+    CheckoutCompleteElements completeElements = new CheckoutCompleteElements();
 
-    public SauceDemoCheckoutCompleteSteps(P parent) {
+    public CheckoutCompletePageSteps(P parent) {
         this.parent = parent;
     }
 
-
     @Step("Check all static  elements on checkout complete page")
-    public SauceDemoCheckoutCompleteSteps checkStaticElemsOnCheckoutCompletePage() {
+    public CheckoutCompletePageSteps<P> checkStaticElemsOnCheckoutCompletePage() {
         Assertions.assertEquals("Swag Labs", completeElements.appLogo.getText());
         Assertions.assertEquals("Checkout: Complete!", completeElements.pageTitle.getText());
         Assertions.assertTrue(completeElements.menuBtn.isDisplayed());
@@ -30,9 +29,9 @@ public class SauceDemoCheckoutCompleteSteps<P> extends BasePage<SauceDemoCheckou
     }
 
     @Step("Click on 'Back Home' button")
-    public SauceDemoProductsSteps clickOnBackHomePage() {
+    public ProductsPageSteps clickOnBackHomePage() {
         completeElements.backHomeBtn.should(Condition.exist).click();
-        return new SauceDemoProductsSteps();
+        return new ProductsPageSteps();
     }
 }
 

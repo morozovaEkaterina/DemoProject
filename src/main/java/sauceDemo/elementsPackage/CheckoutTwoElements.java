@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.openqa.selenium.By.xpath;
 
-public class SauceDemoCheckoutTwoElements {
+public class CheckoutTwoElements {
 
     public SelenideElement appLogo = $(xpath("//div[text()='Swag Labs']"));
     public SelenideElement pageTitle = $(xpath("//span[text()='Checkout: Overview']"));

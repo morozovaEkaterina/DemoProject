@@ -7,7 +7,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static org.openqa.selenium.By.xpath;
 
-public class SauceDemoMainPageElements {
+public class MainPageElements {
     public SelenideElement loginLogo = $(xpath("//div[@id='root']/div/div[1]"));
     public SelenideElement inputAreaUserName = $(xpath("//input[@placeholder='Username']"));
     public SelenideElement inputAreaPassword = $(xpath("//input[@placeholder='Password']"));
