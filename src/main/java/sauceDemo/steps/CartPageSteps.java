@@ -1,9 +1,9 @@
-package sauceDemo.stepsPackage;
+package sauceDemo.steps;
 
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import sauceDemo.BaseSteps;
-import sauceDemo.elementsPackage.CartPageElements;
+import sauceDemo.elements.CartPageElements;
 
 import static com.codeborne.selenide.Condition.exist;
 
@@ -21,10 +21,10 @@ public class CartPageSteps<P> extends BaseSteps<CartPageSteps<P>> {
         Assertions.assertEquals("Your Cart", cartPage.pageTitle.getText());
         Assertions.assertEquals("QTY", cartPage.QTYText.getText());
         Assertions.assertEquals("Description", cartPage.descriptionText.getText());
-        Assertions.assertTrue(cartPage.menuBtn.isDisplayed());
-        Assertions.assertTrue(cartPage.continueShoppingBtn.isDisplayed() && cartPage.continueShoppingBtn.getText().contains("Continue Shopping"));
-        Assertions.assertTrue(cartPage.checkoutBtn.isDisplayed() && cartPage.checkoutBtn.getText().contains("Checkout"));
-        Assertions.assertTrue(cartPage.shoppingCartLink.isDisplayed());
+        cartPage.menuBtn.should(exist);
+        Assertions.assertEquals("Continue Shopping", cartPage.continueShoppingBtn.getText());
+        Assertions.assertEquals("Checkout", cartPage.checkoutBtn.getText());
+        cartPage.shoppingCartLink.should(exist);
         return this;
     }
 

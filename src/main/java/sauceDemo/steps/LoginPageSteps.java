@@ -1,4 +1,4 @@
-package sauceDemo.stepsPackage;
+package sauceDemo.steps;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
@@ -7,7 +7,7 @@ import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.chrome.ChromeOptions;
 import sauceDemo.BaseSteps;
-import sauceDemo.elementsPackage.MainPageElements;
+import sauceDemo.elements.MainPageElements;
 
 import static com.codeborne.selenide.Condition.*;
 
@@ -85,7 +85,7 @@ public class LoginPageSteps extends BaseSteps<LoginPageSteps> {
     @Step("Check elements in the case of locked out user ")
     public LoginPageSteps checkErrorElements() {
         Assertions.assertEquals("Epic sadface: Sorry, this user has been locked out.", mainPageElements.errorText.getText());
-        Assertions.assertTrue(mainPageElements.errorBtn.is(clickable));
+        mainPageElements.errorBtn.should(exist,clickable);
         Assertions.assertEquals(2, mainPageElements.inputErrorForm.size());
         return this;
     }

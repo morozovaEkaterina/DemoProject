@@ -1,9 +1,9 @@
-package sauceDemo.stepsPackage;
+package sauceDemo.steps;
 
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import sauceDemo.BaseSteps;
-import sauceDemo.elementsPackage.CheckoutOneStepElements;
+import sauceDemo.elements.CheckoutOneStepElements;
 
 import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.$;
@@ -85,7 +85,7 @@ public class CheckoutOneStepPageSteps<P> extends BaseSteps<CheckoutOneStepPageSt
     @Step("Click on 'Continue' button for problem user")
     public CheckoutOneStepPageSteps<P> clickOnContinueBtnUnsuccessful() {
         oneStep.continueBtn.should(exist).click();
-        Assertions.assertTrue(oneStep.errorMessageProblemUser.isDisplayed());
+        oneStep.errorMessageProblemUser.should(exist);
         return this;
     }
 
@@ -113,10 +113,10 @@ public class CheckoutOneStepPageSteps<P> extends BaseSteps<CheckoutOneStepPageSt
 
     @Step("Check errors elements")
     public CheckoutOneStepPageSteps<P> checkErrorsElements() {
-        Assertions.assertTrue(oneStep.errorBtn.isDisplayed());
-        Assertions.assertTrue(oneStep.errorInputFields.get(0).isDisplayed());
-        Assertions.assertTrue(oneStep.errorInputFields.get(1).isDisplayed());
-        Assertions.assertTrue(oneStep.errorInputFields.get(2).isDisplayed());
+        oneStep.errorBtn.should(exist);
+        oneStep.errorInputFields.get(0).should(exist);
+        oneStep.errorInputFields.get(1).should(exist);
+        oneStep.errorInputFields.get(2).should(exist);
         return this;
     }
 

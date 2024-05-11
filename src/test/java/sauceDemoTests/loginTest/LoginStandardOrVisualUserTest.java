@@ -1,10 +1,8 @@
 package sauceDemoTests.loginTest;
 
-import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.openqa.selenium.chrome.ChromeOptions;
-import sauceDemo.stepsPackage.LoginPageSteps;
+import sauceDemo.steps.LoginPageSteps;
 
 public class LoginStandardOrVisualUserTest {
     @ParameterizedTest

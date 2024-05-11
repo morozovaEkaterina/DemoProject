@@ -2,7 +2,7 @@ package sauceDemoTests.elementsOnProductPageTests;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import sauceDemo.stepsPackage.LoginPageSteps;
+import sauceDemo.steps.LoginPageSteps;
 
 public class AddToCartBtnPageTest {
 

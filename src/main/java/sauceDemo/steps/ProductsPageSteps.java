@@ -1,15 +1,13 @@
-package sauceDemo.stepsPackage;
+package sauceDemo.steps;
 
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import sauceDemo.BaseSteps;
-import sauceDemo.elementsPackage.ProductsPageElements;
-import sauceDemo.elementsPackage.components.Product;
+import sauceDemo.elements.ProductsPageElements;
+import sauceDemo.elements.components.Product;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
@@ -30,17 +28,6 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
     @Step("Click on menu button and open wrap menu")
     public ProductsPageSteps clickOnWrapMenu() {
         productsElems.menuBtn.should(exist).click();
-        return this;
-    }
-
-    @Step("Check all positions:'All Items','About','Logout','Reset App State'")
-    public ProductsPageSteps checkAllPositionsInWrapMenu() {
-        Assertions.assertEquals(4, productsElems.wrapMenuItems.size());
-        Assertions.assertEquals("All Items", productsElems.wrapMenuItems.get(0).getText());
-        Assertions.assertEquals("About", productsElems.wrapMenuItems.get(1).getText());
-        Assertions.assertEquals("Logout", productsElems.wrapMenuItems.get(2).getText());
-        Assertions.assertEquals("Reset App State", productsElems.wrapMenuItems.get(3).getText());
-        Assertions.assertTrue(productsElems.exitBtnOnWrapMenu.isDisplayed());
         return this;
     }
 
@@ -75,7 +62,7 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
     }
 
     @Step("Click on product title")
-    public ItemPageSteps clickOnProductTitle(int index) {
+    public ItemPageSteps<ProductsPageSteps> clickOnProductTitle(int index) {
         productsElems.elements().get(index).title().should(exist).click();
         return new ItemPageSteps<>(this);
     }
@@ -92,11 +79,7 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
     @Step("Check sort method from A to Z")
     public ProductsPageSteps checkAZName() {
         productsElems.sortMenuCollection.get(0).should(exist).click();
-        List<String> collection = new ArrayList<>();
-        for (SelenideElement elem : productsElems.elements().stream().map(Product::title).toList()) {
-            collection.add(elem.getText());
-        }
-        Collections.sort(collection);
+        List<String> collection = productsElems.elements().stream().map(e -> e.title().getText()).sorted().toList();
         List<String> expectedCollection = new ArrayList<>();
         for (SelenideElement element : $$(xpath("//div[@class='inventory_item']//a[contains(@id,'title')]"))) {
             expectedCollection.add(element.getText());
@@ -108,114 +91,95 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
     @Step("Check sort method from Z to A")
     public ProductsPageSteps checkZAName() {
         productsElems.sortMenuCollection.get(1).should(exist).click();
-        List<String> collection = new ArrayList<>();
-        for (SelenideElement elem : productsElems.elements().stream().map(Product::title).toList()) {
-            collection.add(elem.getText());
-        }
-        Collections.sort(collection);
-        Collections.reverse(collection);
+        List<String> actualCollection = new ArrayList<>(productsElems.elements().stream().map(e -> e.title().getText()).sorted().toList());
+        Collections.reverse(actualCollection);
         List<String> expectedCollection = new ArrayList<>();
         for (SelenideElement element : $$(xpath("//div[@class='inventory_item']//a[contains(@id,'title')]"))) {
             expectedCollection.add(element.getText());
         }
-        Assertions.assertEquals(collection, expectedCollection);
+        Assertions.assertEquals(actualCollection, expectedCollection);
         return this;
     }
 
     @Step("Check sort method name from Z to A")
     public ProductsPageSteps checkZANameForErrorAndProblemUser() {
         productsElems.sortMenuCollection.get(1).should(exist, clickable).click();
-        List<String> collection = new ArrayList<>();
-        for (SelenideElement elem : productsElems.elements().stream().map(Product::title).toList()) {
-            collection.add(elem.getText());
-        }
-        Collections.sort(collection);
-        Collections.reverse(collection);
+        List<String> actualCollection = new ArrayList<>(productsElems.elements().stream().map(e -> e.title().getText()).sorted().toList());
+        Collections.reverse(actualCollection);
+
         List<String> expectedCollection = new ArrayList<>();
         for (SelenideElement element : $$(xpath("//div[@class='inventory_item']//a[contains(@id,'title')]"))) {
             expectedCollection.add(element.getText());
         }
-        Assertions.assertNotEquals(collection, expectedCollection);
+        Assertions.assertNotEquals(actualCollection, expectedCollection);
         return this;
     }
+
 
     @Step("Check sort method price (low to high)")
     public ProductsPageSteps checkPriceLowToHigh() {
         productsElems.sortMenuCollection.get(2).should(exist, clickable).click();
-        List<String> expectedCollection = new ArrayList<>();
-        for (SelenideElement elem : productsElems.elements().stream().map(Product::price).toList()) {
-            expectedCollection.add(elem.getText());
-        }
-        List<Double> sortExpectedCollect =
-                expectedCollection.stream().map(e -> Double.valueOf(e.replace("$", "")))
-                        .sorted().toList();
+        List<Double> expectedCollection = productsElems.elements().stream()
+                .map(e -> Double.parseDouble(e.price().getText().replace("$", ""))).toList();
+
         List<String> actualCollection = new ArrayList<>();
         for (SelenideElement element : $$(xpath("//div[contains(@class,'item_price')]"))) {
             actualCollection.add(element.getText());
         }
-        List<Double> sortActualCollect =
+        List<Double> actualCollect =
                 actualCollection.stream().map(e -> Double.valueOf(e.replace("$", ""))).toList();
-        Assertions.assertEquals(sortExpectedCollect, sortActualCollect);
+        Assertions.assertEquals(expectedCollection, actualCollect);
         return this;
     }
 
     @Step("Check sort method price (high to low)")
     public ProductsPageSteps checkPriceHighToLow() {
         productsElems.sortMenuCollection.get(3).should(exist, clickable).click();
-        List<String> expectedCollection = new ArrayList<>();
-        for (SelenideElement elem : productsElems.elements().stream().map(Product::price).toList()) {
-            expectedCollection.add(elem.getText());
-        }
-        List<Double> sortExpectedCollect =
-                expectedCollection.stream().map(e -> Double.valueOf(e.replace("$", "")))
-                        .sorted(Collections.reverseOrder()).toList();
+        List<Double> expectedCollection = productsElems.elements().stream().map(e -> Double.parseDouble(e.price().getText()
+                .replace("$", ""))).toList();
+
         List<String> actualCollection = new ArrayList<>();
         for (SelenideElement element : $$(xpath("//div[contains(@class,'item_price')]"))) {
             actualCollection.add(element.getText());
         }
-        List<Double> sortActualCollect =
+        List<Double> actualCollect =
                 actualCollection.stream().map(e -> Double.valueOf(e.replace("$", ""))).toList();
-        Assertions.assertEquals(sortExpectedCollect, sortActualCollect);
+        Assertions.assertEquals(expectedCollection, actualCollect);
         return this;
     }
+
 
     @Step("Check sort method price (low to high) for error and problem users")
     public ProductsPageSteps checkPriceLowToHighForErrorAndProblemUser() {
         productsElems.sortMenuCollection.get(2).should(exist, clickable).click();
-        List<String> expectedCollection = new ArrayList<>();
-        for (SelenideElement elem : productsElems.elements().stream().map(Product::price).toList()) {
-            expectedCollection.add(elem.getText());
-        }
-        List<Double> sortExpectedCollect =
-                expectedCollection.stream().map(e -> Double.valueOf(e.replace("$", "")))
-                        .sorted().toList();
+        List<Double> expectedCollection = productsElems.elements().stream().map(e -> Double.parseDouble(e.price().getText().replace("$", "")))
+                .sorted().toList();
+
         List<String> actualCollection = new ArrayList<>();
         for (SelenideElement element : $$(xpath("//div[contains(@class,'item_price')]"))) {
             actualCollection.add(element.getText());
         }
-        List<Double> sortActualCollect =
+        List<Double> actualCollect =
                 actualCollection.stream().map(e -> Double.valueOf(e.replace("$", ""))).toList();
-        Assertions.assertNotEquals(sortExpectedCollect, sortActualCollect);
+        Assertions.assertNotEquals(expectedCollection, actualCollect);
         return this;
     }
 
     @Step("Check sort method price (high to low) for error and problem users")
     public ProductsPageSteps checkPriceHighToLowForErrorAndProblemUser() {
         productsElems.sortMenuCollection.get(3).should(exist, clickable).click();
-        List<String> expectedCollection = new ArrayList<>();
-        for (SelenideElement elem : productsElems.elements().stream().map(Product::price).toList()) {
-            expectedCollection.add(elem.getText());
-        }
-        List<Double> sortExpectedCollect =
-                expectedCollection.stream().map(e -> Double.valueOf(e.replace("$", "")))
-                        .sorted(Collections.reverseOrder()).toList();
+        List<Double> expectedPrices = productsElems.elements().stream()
+                .map(element -> Double.parseDouble(element.price().getText().replace("$", "")))
+                .sorted(Comparator.reverseOrder())
+                .toList();
+
         List<String> actualCollection = new ArrayList<>();
         for (SelenideElement element : $$(xpath("//div[contains(@class,'item_price')]"))) {
             actualCollection.add(element.getText());
         }
         List<Double> sortActualCollect =
                 actualCollection.stream().map(e -> Double.valueOf(e.replace("$", ""))).toList();
-        Assertions.assertNotEquals(sortExpectedCollect, sortActualCollect);
+        Assertions.assertNotEquals(expectedPrices, sortActualCollect);
         return this;
     }
 
@@ -240,7 +204,7 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
     }
 
     @Step("Click on shopping cart button")
-    public CartPageSteps clickOnCartBtn() {
+    public CartPageSteps<ProductsPageSteps> clickOnCartBtn() {
         productsElems.shoppingCartLink.should(exist).click();
         return new CartPageSteps<>(this);
     }

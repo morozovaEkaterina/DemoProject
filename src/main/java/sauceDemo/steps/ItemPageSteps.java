@@ -1,9 +1,9 @@
-package sauceDemo.stepsPackage;
+package sauceDemo.steps;
 
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import sauceDemo.BaseSteps;
-import sauceDemo.elementsPackage.ItemElements;
+import sauceDemo.elements.ItemElements;
 
 import static com.codeborne.selenide.Condition.exist;
 
