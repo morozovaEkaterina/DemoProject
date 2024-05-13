@@ -1,11 +1,11 @@
 package sauceDemo.steps;
 
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.Assertions;
 import sauceDemo.BaseSteps;
-import sauceDemo.elements.ItemElements;
+import sauceDemo.page.ItemElements;
 
 import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.text;
 
 public class ItemPageSteps<P> extends BaseSteps<ItemPageSteps<P>> {
     P parent;
@@ -15,13 +15,13 @@ public class ItemPageSteps<P> extends BaseSteps<ItemPageSteps<P>> {
         this.parent = parent;
     }
 
-    @Step("Check static elements and titles on inventory item")
+    @Step("Check static page and titles on inventory item")
     public ItemPageSteps<P> checkStaticElemsOnCartPage() {
-        Assertions.assertEquals("Add to cart", itemElements.addToCart.getText());
-        Assertions.assertEquals("Back to products", itemElements.backBtn.getText());
-        Assertions.assertEquals("Swag Labs", itemElements.mainTitle.getText());
+        itemElements.addToCart.should(text("Add to cart"));
+        itemElements.backBtn.should(text("Back to products"));
+        itemElements.mainTitle.should(text("Swag Labs"));
         itemElements.shoppingCartLink.should(exist);
-        Assertions.assertTrue(itemElements.itemPrice.getText().contains("$"));
+        itemElements.itemPrice.should(text("$"));
         itemElements.itemPhoto.should(exist);
         itemElements.menu.should(exist);
         return this;

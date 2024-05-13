@@ -8,7 +8,6 @@ public class FinishButtonOnTwoStepPageTest {
     @ParameterizedTest
     @CsvSource(value = {"standard_user",
             "visual_user",
-            "error_user",
             "performance_glitch_user"})
     public void checkClickOnFinishBtnTwoStepPage(String username) {
         LoginPageSteps.open("https://www.saucedemo.com")

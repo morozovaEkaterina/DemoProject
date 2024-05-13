@@ -4,11 +4,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import sauceDemo.steps.LoginPageSteps;
 
-public class ContinueBtnWithoutInputtedLastNameTest {
+public class ContinueBtnWithoutInputtedLastNameErrorUserTest {
+
     @ParameterizedTest
-    @CsvSource(value = {"standard_user",
-            "visual_user",
-            "performance_glitch_user"})
+    @CsvSource(value = {
+            "error_user"})
     public void checkContinueBtnWithoutLastName(String username) {
         LoginPageSteps.open("https://www.saucedemo.com")
                 .waitPageLoading()
@@ -25,9 +25,7 @@ public class ContinueBtnWithoutInputtedLastNameTest {
                 .setZip("cv784")
                 .checkIsZipInputted("cv784")
                 .clickOnContinueBtnWithoutLastName()
-                .checkClickOnContinueBtnWithoutLastName()
-                .checkErrorsElements()
-                .checkURL("https://www.saucedemo.com/checkout-step-one.html");
+                .checkURL("https://www.saucedemo.com/checkout-step-two.html");
     }
 }
 

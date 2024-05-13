@@ -1,12 +1,11 @@
 package sauceDemo.steps;
 
-import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.Assertions;
 import sauceDemo.BaseSteps;
-import sauceDemo.elements.CheckoutCompleteElements;
+import sauceDemo.page.CheckoutCompleteElements;
 
 import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.text;
 
 public class CheckoutCompletePageSteps<P> extends BaseSteps<CheckoutCompletePageSteps<P>> {
     P parent;
@@ -16,17 +15,16 @@ public class CheckoutCompletePageSteps<P> extends BaseSteps<CheckoutCompletePage
         this.parent = parent;
     }
 
-    @Step("Check all static  elements on checkout complete page")
+    @Step("Check all static  page on checkout complete page")
     public CheckoutCompletePageSteps<P> checkStaticElemsOnCheckoutCompletePage() {
-        Assertions.assertEquals("Swag Labs", completeElements.appLogo.getText());
-        Assertions.assertEquals("Checkout: Complete!", completeElements.pageTitle.getText());
+        completeElements.appLogo.should(text("Swag Labs"));
+        completeElements.pageTitle.should(text("Checkout: Complete!"));
         completeElements.menuBtn.should(exist);
         completeElements.shoppingCartLink.should(exist);
-        Assertions.assertEquals("Thank you for your order!", completeElements.thankYouText.getText());
-        Assertions.assertEquals(
-                "Your order has been dispatched, and will arrive just as fast as the pony can get there!",
-                completeElements.completeText.getText());
-        Assertions.assertEquals("Back Home", completeElements.backHomeBtn.getText());
+        completeElements.thankYouText.should(text("Thank you for your order!"));
+        completeElements.completeText
+                .should(text("Your order has been dispatched, and will arrive just as fast as the pony can get there!"));
+        completeElements.backHomeBtn.should(text("Back Home"));
         return this;
     }
 

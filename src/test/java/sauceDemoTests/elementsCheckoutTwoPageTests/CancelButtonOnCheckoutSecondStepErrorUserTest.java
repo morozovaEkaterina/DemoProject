@@ -4,11 +4,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import sauceDemo.steps.LoginPageSteps;
 
-public class FinishButtonOnTwoStepPageErrorUserTest {
+public class CancelButtonOnCheckoutSecondStepErrorUserTest {
     @ParameterizedTest
     @CsvSource(value = {
             "error_user"})
-    public void checkClickOnFinishBtnTwoStepPage(String username) {
+    public void checkInputInfoOnCheckoutPage(String username) {
         LoginPageSteps.open("https://www.saucedemo.com")
                 .waitPageLoading()
                 .successfulLogin(username, "secret_sauce")
@@ -17,11 +17,11 @@ public class FinishButtonOnTwoStepPageErrorUserTest {
                 .checkStaticElementsOnCartPage()
                 .clickOnCheckoutBtn()
                 .checkStaticElemsOnOneCheckStepPage()
-                .unSuccessfulInfoCheckoutForErrorUser("Masha","Ivanova","sdfc452")
+                .unSuccessfulInfoCheckoutForErrorUser("Olga","Ivanova","fk789")
                 .clickOnContinueBtnSuccessful()
                 .checkStaticElemsOnTwoCheckStepPage()
-                .clickOnFinishBtnCompletePageUnsuccessful()
-                .checkURL("https://www.saucedemo.com/checkout-step-two.html");
+                .clickOnCancelBtn()
+                .checkURL("https://www.saucedemo.com/inventory.html");
     }
 }
 

@@ -7,7 +7,8 @@ import sauceDemo.steps.LoginPageSteps;
 public class InputYourInfoOnCheckoutProblemUserTest {
 
     @ParameterizedTest
-    @CsvSource(value = {"problem_user"})
+    @CsvSource(value = {"problem_user"
+            })
     public void inputInfoOnCheckoutFields(String username) {
         LoginPageSteps.open("https://www.saucedemo.com")
                 .waitPageLoading()
@@ -17,7 +18,15 @@ public class InputYourInfoOnCheckoutProblemUserTest {
                 .checkStaticElementsOnCartPage()
                 .clickOnCheckoutBtn()
                 .checkStaticElemsOnOneCheckStepPage()
-                .successfulInfoCheckout("Lola", "fo", "fvflj")
+                .clickOnFirstNameArea()
+                .setFirstName("Masha")
+                .checkIsFirstNameInputted("Masha")
+                .clickOnLastNameArea()
+                .setLastName("Popova")
+                .checkIsLastNameInputtedUnsuccessful("Popova")
+                .clickOnZipArea()
+                .setZip("498450")
+                .checkIsZipInputted("498450")
                 .clickOnContinueBtnUnsuccessful()
                 .checkURL("https://www.saucedemo.com/checkout-step-one.html");
     }

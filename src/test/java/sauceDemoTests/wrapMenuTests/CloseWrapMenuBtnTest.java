@@ -19,7 +19,8 @@ public class CloseWrapMenuBtnTest {
                 .checkURL("https://www.saucedemo.com/inventory.html")
                 .checkStaticElementsOnProductPage()
                 .clickOnWrapMenu()
-                .clickOnCloseWrapMenuBtn();
+                .clickOnCloseWrapMenuBtn()
+                .checkClickOnCloseWrapMenuBtn();
     }
 }
 

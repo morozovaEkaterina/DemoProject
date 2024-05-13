@@ -1,4 +1,4 @@
-package sauceDemo.elements;
+package sauceDemo.page;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
@@ -22,6 +22,4 @@ public class CheckoutOneStepElements {
     public SelenideElement errorMessageProblemUser = $(xpath("//h3"));
     public ElementsCollection errorInputFields = $$(xpath("//input[contains(@class,'error')]"));
     public SelenideElement errorBtn = $(xpath("//button[@class='error-button']"));
-
-
 }

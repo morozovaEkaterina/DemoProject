@@ -9,7 +9,6 @@ public class CancelButtonOnCheckoutSecondStepTest {
     @ParameterizedTest
     @CsvSource(value = {"standard_user",
             "visual_user",
-            "error_user",
             "performance_glitch_user"})
     public void checkInputInfoOnCheckoutPage(String username) {
         LoginPageSteps.open("https://www.saucedemo.com")

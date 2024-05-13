@@ -1,11 +1,11 @@
 package sauceDemo.steps;
 
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.Assertions;
 import sauceDemo.BaseSteps;
-import sauceDemo.elements.CartPageElements;
+import sauceDemo.page.CartPageElements;
 
 import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.text;
 
 public class CartPageSteps<P> extends BaseSteps<CartPageSteps<P>> {
     P parent;
@@ -15,15 +15,15 @@ public class CartPageSteps<P> extends BaseSteps<CartPageSteps<P>> {
         this.parent = parent;
     }
 
-    @Step("Check static elements on the page")
+    @Step("Check static page on the page")
     public CartPageSteps<P> checkStaticElementsOnCartPage() {
-        Assertions.assertEquals("Swag Labs", cartPage.appLogo.getText());
-        Assertions.assertEquals("Your Cart", cartPage.pageTitle.getText());
-        Assertions.assertEquals("QTY", cartPage.QTYText.getText());
-        Assertions.assertEquals("Description", cartPage.descriptionText.getText());
+        cartPage.appLogo.should(text("Swag Labs"));
+        cartPage.pageTitle.should(text("Your Cart"));
+        cartPage.QTYText.should(text("QTY"));
+        cartPage.descriptionText.should(text("Description"));
         cartPage.menuBtn.should(exist);
-        Assertions.assertEquals("Continue Shopping", cartPage.continueShoppingBtn.getText());
-        Assertions.assertEquals("Checkout", cartPage.checkoutBtn.getText());
+        cartPage.continueShoppingBtn.should(text("Continue Shopping"));
+        cartPage.checkoutBtn.should(text("Checkout"));
         cartPage.shoppingCartLink.should(exist);
         return this;
     }

@@ -1,11 +1,12 @@
 package sauceDemo.steps;
 
+import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
-import org.junit.jupiter.api.Assertions;
 import sauceDemo.BaseSteps;
-import sauceDemo.elements.CheckoutTwoElements;
+import sauceDemo.page.CheckoutTwoElements;
 
 import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.text;
 
 public class CheckoutTwoPageSteps<P> extends BaseSteps<CheckoutTwoPageSteps<P>> {
     P parent;
@@ -15,17 +16,18 @@ public class CheckoutTwoPageSteps<P> extends BaseSteps<CheckoutTwoPageSteps<P>> 
         this.parent = parent;
     }
 
-    @Step("Check all static elements on checkout overview page")
+    @Step("Check all static page on checkout overview page")
     public CheckoutTwoPageSteps<P> checkStaticElemsOnTwoCheckStepPage() {
-        Assertions.assertEquals("Checkout: Overview", checkoutTwo.pageTitle.getText());
+        checkoutTwo.pageTitle.should(text("Checkout: Overview"));
         checkoutTwo.menuBtn.should(exist);
         checkoutTwo.shoppingCartLink.should(exist);
-        Assertions.assertEquals("Cancel", checkoutTwo.cancelBtn.getText());
-        Assertions.assertEquals("Finish", checkoutTwo.finishBtn.getText());
-        Assertions.assertEquals("Payment Information:", checkoutTwo.infoLabels.get(0).getText());
-        Assertions.assertEquals("Shipping Information:", checkoutTwo.infoLabels.get(1).getText());
-        Assertions.assertEquals("Price Total", checkoutTwo.infoLabels.get(2).getText());
-        Assertions.assertTrue(checkoutTwo.totalLabel.getText().contains("Total: $"));
+        checkoutTwo.cancelBtn.should(text("Cancel"));
+        checkoutTwo.finishBtn.should(text("Finish"));
+        checkoutTwo.infoLabels.get(0).should(text("Payment Information:"));
+        checkoutTwo.infoLabels.get(1).should(text("Shipping Information:"));
+        checkoutTwo.infoLabels.get(2).should(text("Price Total"));
+        checkoutTwo.totalLabel.should(Condition.text("Total: $"));
+
         return this;
     }
 
@@ -36,9 +38,9 @@ public class CheckoutTwoPageSteps<P> extends BaseSteps<CheckoutTwoPageSteps<P>> 
     }
 
     @Step("Successful click on finish button")
-    public CheckoutCompletePageSteps<P> clickOnFinishBtnCompletePageSuccessful() {
+    public CheckoutCompletePageSteps<CheckoutTwoPageSteps<P>> clickOnFinishBtnCompletePageSuccessful() {
         checkoutTwo.finishBtn.should(exist).click();
-        return new CheckoutCompletePageSteps(this);
+        return new CheckoutCompletePageSteps<>(this);
     }
 
     @Step("Unsuccessful Click on finish button")

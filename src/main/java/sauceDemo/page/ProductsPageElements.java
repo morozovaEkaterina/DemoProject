@@ -1,8 +1,8 @@
-package sauceDemo.elements;
+package sauceDemo.page;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import sauceDemo.elements.components.Product;
+import sauceDemo.page.components.Product;
 
 import java.util.ArrayList;
 import java.util.List;

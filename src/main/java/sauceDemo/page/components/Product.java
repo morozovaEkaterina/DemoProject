@@ -1,4 +1,4 @@
-package sauceDemo.elements.components;
+package sauceDemo.page.components;
 
 import com.codeborne.selenide.SelenideElement;
 

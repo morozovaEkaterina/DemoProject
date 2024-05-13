@@ -1,14 +1,16 @@
 package sauceDemo.steps;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;
 import sauceDemo.BaseSteps;
-import sauceDemo.elements.ProductsPageElements;
-import sauceDemo.elements.components.Product;
+import sauceDemo.page.ProductsPageElements;
+import sauceDemo.page.components.Product;
 
 import java.util.*;
 
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -18,10 +20,10 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
 
     ProductsPageElements productsElems = new ProductsPageElements();
 
-    @Step("Check static elements on the page")
+    @Step("Check static page on the page")
     public ProductsPageSteps checkStaticElementsOnProductPage() {
-        Assertions.assertEquals("Swag Labs", productsElems.appLogo.getText());
-        Assertions.assertEquals(6, productsElems.inventoryList.size());
+        productsElems.appLogo.should(text("Swag Labs"));
+        productsElems.inventoryList.should(size(6));
         return this;
     }
 
@@ -32,8 +34,16 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
     }
 
     @Step("Click on button logout")
-    public LoginPageSteps clickOnLogoutBtn(int index) {
-        productsElems.wrapMenuItems.get(index).click();
+    public LoginPageSteps clickOnResetAppStateBtn() {
+        productsElems.wrapMenuItems.get(3).should(text("Reset App State")).click();
+        return new LoginPageSteps();
+    }
+
+    @Step("Click on button logout")
+    public LoginPageSteps clickOnLogoutBtn() {
+        productsElems.wrapMenuItems.get(2)
+                .should(text("Logout"))
+                .click();
         return new LoginPageSteps();
     }
 
@@ -49,21 +59,24 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
         return this;
     }
 
-    @Step("Check elements on products cards")
+    @Step("Check page on products cards")
     public ProductsPageSteps checkElemsOnProductsCards() {
         for (int i = 0; i < productsElems.inventoryList.size(); i++) {
-            Assertions.assertFalse(productsElems.inventoryList.isEmpty());
-            Assertions.assertTrue(productsElems.elements().get(i).price().getText().contains("$"));
+            productsElems.inventoryList.should(CollectionCondition.sizeGreaterThan(0));
+            productsElems.elements().forEach(e -> e.price().should(text("$")));
             Assertions.assertTrue(Integer.parseInt(productsElems.elements().get(i).price().getText().replaceAll("[^\\d]", "")) >= 0);
-            Assertions.assertTrue(productsElems.elements().get(i).addRemoveBtn().getText().contains("Remove") ||
-                    productsElems.elements().get(i).addRemoveBtn().getText().contains("Add to cart"));
+            productsElems.elements().forEach(e -> e.addRemoveBtn().should(or("", text("Add to cart"), text("Remove"))));
         }
         return this;
     }
 
     @Step("Click on product title")
     public ItemPageSteps<ProductsPageSteps> clickOnProductTitle(int index) {
-        productsElems.elements().get(index).title().should(exist).click();
+        productsElems.elements()
+                .get(index)
+                .title()
+                .should(exist)
+                .click();
         return new ItemPageSteps<>(this);
     }
 
@@ -79,39 +92,47 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
     @Step("Check sort method from A to Z")
     public ProductsPageSteps checkAZName() {
         productsElems.sortMenuCollection.get(0).should(exist).click();
-        List<String> collection = productsElems.elements().stream().map(e -> e.title().getText()).sorted().toList();
-        List<String> expectedCollection = new ArrayList<>();
+        List<String> expectedCollection = productsElems.elements().stream().map(e -> e.title().getText())
+                .sorted()
+                .toList();
+        List<String> actualCollection = new ArrayList<>();
         for (SelenideElement element : $$(xpath("//div[@class='inventory_item']//a[contains(@id,'title')]"))) {
-            expectedCollection.add(element.getText());
+            actualCollection.add(element.getText());
         }
-        Assertions.assertEquals(collection, expectedCollection);
+        Assertions.assertEquals(expectedCollection, actualCollection);
         return this;
     }
 
     @Step("Check sort method from Z to A")
     public ProductsPageSteps checkZAName() {
         productsElems.sortMenuCollection.get(1).should(exist).click();
-        List<String> actualCollection = new ArrayList<>(productsElems.elements().stream().map(e -> e.title().getText()).sorted().toList());
-        Collections.reverse(actualCollection);
-        List<String> expectedCollection = new ArrayList<>();
+        List<String> expectedCollection = new ArrayList<>(productsElems.elements().stream()
+                .map(e -> e.title().getText())
+                .sorted()
+                .toList());
+        Collections.reverse(expectedCollection);
+        List<String> actualCollection = new ArrayList<>();
         for (SelenideElement element : $$(xpath("//div[@class='inventory_item']//a[contains(@id,'title')]"))) {
-            expectedCollection.add(element.getText());
+            actualCollection.add(element.getText());
         }
-        Assertions.assertEquals(actualCollection, expectedCollection);
+        Assertions.assertEquals(expectedCollection, actualCollection);
         return this;
     }
 
     @Step("Check sort method name from Z to A")
     public ProductsPageSteps checkZANameForErrorAndProblemUser() {
         productsElems.sortMenuCollection.get(1).should(exist, clickable).click();
-        List<String> actualCollection = new ArrayList<>(productsElems.elements().stream().map(e -> e.title().getText()).sorted().toList());
-        Collections.reverse(actualCollection);
+        List<String> expectedCollection = new ArrayList<>(productsElems.elements().stream()
+                .map(e -> e.title().getText())
+                .sorted()
+                .toList());
+        Collections.reverse(expectedCollection);
 
-        List<String> expectedCollection = new ArrayList<>();
+        List<String> actualCollection = new ArrayList<>();
         for (SelenideElement element : $$(xpath("//div[@class='inventory_item']//a[contains(@id,'title')]"))) {
-            expectedCollection.add(element.getText());
+            actualCollection.add(element.getText());
         }
-        Assertions.assertNotEquals(actualCollection, expectedCollection);
+        Assertions.assertNotEquals(expectedCollection, actualCollection);
         return this;
     }
 
@@ -127,7 +148,8 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
             actualCollection.add(element.getText());
         }
         List<Double> actualCollect =
-                actualCollection.stream().map(e -> Double.valueOf(e.replace("$", ""))).toList();
+                actualCollection.stream().map(e ->
+                        Double.valueOf(e.replace("$", ""))).toList();
         Assertions.assertEquals(expectedCollection, actualCollect);
         return this;
     }
@@ -143,7 +165,8 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
             actualCollection.add(element.getText());
         }
         List<Double> actualCollect =
-                actualCollection.stream().map(e -> Double.valueOf(e.replace("$", ""))).toList();
+                actualCollection.stream().map(e ->
+                        Double.valueOf(e.replace("$", ""))).toList();
         Assertions.assertEquals(expectedCollection, actualCollect);
         return this;
     }
@@ -152,8 +175,10 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
     @Step("Check sort method price (low to high) for error and problem users")
     public ProductsPageSteps checkPriceLowToHighForErrorAndProblemUser() {
         productsElems.sortMenuCollection.get(2).should(exist, clickable).click();
-        List<Double> expectedCollection = productsElems.elements().stream().map(e -> Double.parseDouble(e.price().getText().replace("$", "")))
-                .sorted().toList();
+        List<Double> expectedCollection = productsElems.elements().stream().map(e ->
+                        Double.parseDouble(e.price().getText().replace("$", "")))
+                .sorted()
+                .toList();
 
         List<String> actualCollection = new ArrayList<>();
         for (SelenideElement element : $$(xpath("//div[contains(@class,'item_price')]"))) {
@@ -183,23 +208,63 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
         return this;
     }
 
-    @Step("Click on 'add to cart' button")
-    public ProductsPageSteps clickOnAddBtn(int index) {
-        if (productsElems.elements().get(index).addRemoveBtn().getText().contains("Add to cart")) {
-            productsElems.elements().stream().map(Product::addRemoveBtn).toList().get(index).should(exist).click();
-            Assertions.assertEquals(Integer.parseInt($(xpath("//span[contains(@class,'badge')]")).getText()),
-                    $$(xpath("//button[text()='Remove']")).size());
-        }
+    @Step("Click on 'add to cart' button successful")
+    public ProductsPageSteps clickOnAddBtnSuccessful() {
+        productsElems.elements().stream()
+                .map(Product::addRemoveBtn)
+                .forEach(e -> e.should(text("Add to cart")).click());
         return this;
     }
 
-    @Step("click on remove button")
-    public ProductsPageSteps clickOnRemoveBtn(int index) {
-        if (productsElems.elements().stream().map(Product::addRemoveBtn).toList().get(index).getText().contains("Add to cart")) {
-            productsElems.elements().stream().map(Product::addRemoveBtn).toList().get(index).should(exist).click();
-            Assertions.assertEquals(Integer.parseInt($(xpath("//span[contains(@class,'badge')]")).getText()),
-                    $$(xpath("//button[text()='Remove']")).size());
-        }
+    @Step("Check that click on 'add to cart' button successful")
+    public ProductsPageSteps checkClickOnAddBtnSuccessful() {
+        Assertions.assertEquals(Integer.parseInt($(xpath("//span[contains(@class,'badge')]")).getText()),
+                $$(xpath("//button[text()='Remove']")).size());
+        return this;
+    }
+
+    @Step("click on 'remove' button successful")
+    public ProductsPageSteps clickOnRemoveBtnSuccessful() {
+        productsElems.elements().stream()
+                .map(Product::addRemoveBtn)
+                .forEach(e -> e.should(text("Add to cart")).click());
+
+        productsElems.elements().forEach(e -> e.addRemoveBtn().should(text("Remove")));
+        productsElems.elements().stream()
+                .map(Product::addRemoveBtn).forEach(e -> e.should(exist).click());
+        $(xpath("//span[contains(@class,'badge')]")).shouldNot(visible);
+
+        return this;
+    }
+
+    @Step("Click on 'add to cart' button unsuccessful")
+    public ProductsPageSteps clickOnAddBtnUnsuccessful() {
+        productsElems.elements().stream()
+                .map(Product::addRemoveBtn)
+                .forEach(e -> e.should(text("Add to cart"), clickable).click());
+        return this;
+    }
+
+    @Step("Check click on 'add to cart' button unsuccessful")
+    public ProductsPageSteps checkClickOnAddBtnUnsuccessful() {
+        Assertions.assertNotEquals(productsElems.elements().stream().map(Product::addRemoveBtn).toList().size(),
+                $$(xpath("//button[text()='Remove']")).size());
+        return this;
+    }
+
+    @Step("click on 'remove' button unsuccessful")
+    public ProductsPageSteps clickOnRemoveBtnUnsuccessful() {
+        productsElems.elements().stream()
+                .map(Product::addRemoveBtn)
+                .forEach(e -> e.should(text("Add to cart"), clickable).click());
+        Assertions.assertNotEquals(productsElems.elements().stream().map(Product::addRemoveBtn).toList().size(),
+                $$(xpath("//button[text()='Remove']")).size());
+
+        productsElems.elements().forEach(e -> e.addRemoveBtn().should(text("Remove").or(text("Add to cart"))));
+        productsElems.elements().stream()
+                .map(Product::addRemoveBtn)
+                .forEach(SelenideElement::click);
+        $(xpath("//span[contains(@class,'badge')]")).should(visible);
         return this;
     }
 
@@ -212,7 +277,15 @@ public class ProductsPageSteps extends BaseSteps<ProductsPageSteps> {
     @Step("Click on close wrap menu button")
     public ProductsPageSteps clickOnCloseWrapMenuBtn() {
         productsElems.closeWrapMenuBtn.should(exist).click();
-        Assertions.assertEquals("true", productsElems.wrapMenuArea.getAttribute("aria-hidden"));
+        Assertions.assertEquals("true",
+                productsElems.wrapMenuArea.getAttribute("aria-hidden"));
+        return this;
+    }
+
+    @Step("Check click on close wrap menu button")
+    public ProductsPageSteps checkClickOnCloseWrapMenuBtn() {
+        Assertions.assertEquals("true",
+                productsElems.wrapMenuArea.getAttribute("aria-hidden"));
         return this;
     }
 }

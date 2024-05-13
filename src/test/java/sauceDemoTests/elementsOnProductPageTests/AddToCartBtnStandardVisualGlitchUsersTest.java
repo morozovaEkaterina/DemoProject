@@ -1,25 +1,24 @@
-package sauceDemoTests.wrapMenuTests;
+package sauceDemoTests.elementsOnProductPageTests;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import sauceDemo.steps.LoginPageSteps;
 
-public class LogoutUsersTest {
+public class AddToCartBtnStandardVisualGlitchUsersTest {
+
     @ParameterizedTest
     @CsvSource(value = {"standard_user",
             "visual_user",
-            "problem_user",
-            "error_user",
             "performance_glitch_user"})
-    public void checkLogoutBtn(String username) {
+    public void addToCartSuccessfulTest(String username) {
         LoginPageSteps.open("https://www.saucedemo.com")
                 .waitPageLoading()
-                .successfulLogin(username,"secret_sauce")
+                .successfulLogin(username, "secret_sauce")
                 .clickOnLoginBtnSuccessful()
                 .checkURL("https://www.saucedemo.com/inventory.html")
-                .checkStaticElementsOnProductPage()
+                .clickOnAddBtnSuccessful()
+                .checkClickOnAddBtnSuccessful()
                 .clickOnWrapMenu()
-                .clickOnLogoutBtn()
-                .checkURL("https://www.saucedemo.com/");
+                .clickOnResetAppStateBtn();
     }
 }

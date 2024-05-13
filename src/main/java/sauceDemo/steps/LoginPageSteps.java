@@ -1,14 +1,13 @@
 package sauceDemo.steps;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.*;
 import io.qameta.allure.Step;
 
-import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.chrome.ChromeOptions;
 import sauceDemo.BaseSteps;
-import sauceDemo.elements.MainPageElements;
+import sauceDemo.page.MainPageElements;
 
+import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.*;
 
 public class LoginPageSteps extends BaseSteps<LoginPageSteps> {
@@ -16,7 +15,7 @@ public class LoginPageSteps extends BaseSteps<LoginPageSteps> {
 
     public static final String URL = "https://www.saucedemo.com";
 
-    @Step("Open page {URL} and check static elements")
+    @Step("Open page {URL} and check static page")
     public static LoginPageSteps open(String URL) {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--guest");
@@ -25,15 +24,12 @@ public class LoginPageSteps extends BaseSteps<LoginPageSteps> {
         return new LoginPageSteps();
     }
 
-    @Step("Check static elements")
+    @Step("Check static page")
     public LoginPageSteps waitPageLoading() {
-        Assertions.assertTrue(Selenide.webdriver().driver().getWebDriver().getCurrentUrl()
-                .contains(mainPageElements.loginBtn.getText()));
-        Assertions.assertTrue(Selenide.webdriver().driver().getWebDriver().getCurrentUrl()
-                .contains(mainPageElements.inputAreaPassword.getText()));
-        Assertions.assertTrue(Selenide.webdriver().driver().getWebDriver().getCurrentUrl()
-                .contains(mainPageElements.inputAreaUserName.getText()));
-        Assertions.assertEquals("Swag Labs", mainPageElements.loginLogo.getText());
+        mainPageElements.loginBtn.should(value("Login"));
+        mainPageElements.inputAreaPassword.should(exist);
+        mainPageElements.inputAreaPassword.should(exist);
+        mainPageElements.loginLogo.should(text("Swag Labs"));
         return this;
     }
 
@@ -49,6 +45,12 @@ public class LoginPageSteps extends BaseSteps<LoginPageSteps> {
         return this;
     }
 
+    @Step("Check is username inputted in the area")
+    public LoginPageSteps checkIsUsernameInputted(String username) {
+        mainPageElements.inputAreaUserName.should(value(username));
+        return this;
+    }
+
     @Step("Click on password area")
     public LoginPageSteps clickOnPasswordArea() {
         mainPageElements.inputAreaPassword.should(exist).click();
@@ -61,12 +63,20 @@ public class LoginPageSteps extends BaseSteps<LoginPageSteps> {
         return this;
     }
 
+    @Step("Check is password inputted in the area")
+    public LoginPageSteps checkIsPasswordInputted(String password) {
+        mainPageElements.inputAreaPassword.should(value(password));
+        return this;
+    }
+
     @Step("Successful log in. Inputted username:{username}, password:{password}")
     public LoginPageSteps successfulLogin(String username, String password) {
         clickOnUsernameArea();
         setUsername(username);
+        checkIsUsernameInputted(username);
         clickOnPasswordArea();
         setPassword(password);
+        checkIsPasswordInputted(password);
         return this;
     }
 
@@ -82,11 +92,11 @@ public class LoginPageSteps extends BaseSteps<LoginPageSteps> {
         return this;
     }
 
-    @Step("Check elements in the case of locked out user ")
+    @Step("Check page in the case of locked out user ")
     public LoginPageSteps checkErrorElements() {
-        Assertions.assertEquals("Epic sadface: Sorry, this user has been locked out.", mainPageElements.errorText.getText());
-        mainPageElements.errorBtn.should(exist,clickable);
-        Assertions.assertEquals(2, mainPageElements.inputErrorForm.size());
+        mainPageElements.errorText.should(text("Epic sadface: Sorry, this user has been locked out."));
+        mainPageElements.errorBtn.should(exist, clickable);
+        mainPageElements.inputErrorForm.should(size(2));
         return this;
     }
 }

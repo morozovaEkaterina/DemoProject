@@ -8,7 +8,6 @@ public class ContinueBtnWithoutInputtedZipTest {
     @ParameterizedTest
     @CsvSource(value = {"standard_user",
             "visual_user",
-            "error_user",
             "performance_glitch_user"})
     public void checkContinueBtnWithoutZip(String username) {
         LoginPageSteps.open("https://www.saucedemo.com")
@@ -20,10 +19,13 @@ public class ContinueBtnWithoutInputtedZipTest {
                 .clickOnCheckoutBtn()
                 .checkStaticElemsOnOneCheckStepPage()
                 .clickOnFirstNameArea()
-                .setFirstNameArea("Masha")
+                .setFirstName("Masha")
+                .checkIsFirstNameInputted("Masha")
                 .clickOnLastNameArea()
-                .setValueLastNameArea("Popova")
+                .setLastName("Popova")
+                .checkIsLastNameInputtedSuccessful("Popova")
                 .clickOnContinueBtnWithoutZip()
+                .checkClickOnContinueBtnWithoutZip()
                 .checkErrorsElements()
                 .checkURL("https://www.saucedemo.com/checkout-step-one.html");
     }
