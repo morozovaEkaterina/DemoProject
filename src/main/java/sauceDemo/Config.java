@@ -6,8 +6,7 @@ public class Config {
     private static Config config;
 
     private Config() {
-        Configuration.pageLoadTimeout = 10000L;
-
+        Configuration.pageLoadTimeout = 5000L;
     }
 
     public static Config getInstance() {

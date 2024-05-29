@@ -1,16 +1,15 @@
-package sauceDemoTests.complitedPageTest;
+package sauceDemoTests.checkoutItemPageTests;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sauceDemo.steps.LoginSteps;
 import sauceDemoTests.BaseTest;
 
-@DisplayName("Tests on 'Back home' button on the completed page")
-public class BackHomeBtnTest extends BaseTest {
-
-    @DisplayName("Check 'Back home' button on the completed page")
+@DisplayName("Tests on 'Finish' button on Item info page")
+public class FinishBtnOnItemInfoPageTest extends BaseTest {
+    @DisplayName("Check 'Finish' button on the item info page")
     @Test
-    public void checkClickOnBackHomeBtn() {
+    public void CheckFinishBtnCheckoutItemPage() {
         LoginSteps.open("https://www.saucedemo.com")
                 .waitPageLoading()
                 .successfulLogin(usernameS, passwordS)
@@ -19,11 +18,10 @@ public class BackHomeBtnTest extends BaseTest {
                 .checkStaticElementsOnCartPage()
                 .clickOnCheckoutBtn()
                 .checkStaticElemsOnPersonalInfoPage()
-                .successfulPersonalInfoCheckout("Pasha", "Morev", "45646")
+                .successfulPersonalInfoCheckout("Anna", "Novikova", "564151")
                 .clickOnContinueBtnSuccessful()
                 .checkStaticElemsOnTwoCheckStepPage()
                 .clickOnFinishBtnCompletePage()
-                .checkStaticElemsOnCheckoutCompletePage()
-                .clickOnBackHomePage();
+                .checkURL("https://www.saucedemo.com/checkout-complete.html");
     }
 }
