@@ -1,23 +1,22 @@
 package sauceDemoTests.wrapMenuTests;
 
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import sauceDemo.steps.LoginPageSteps;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import sauceDemo.steps.LoginSteps;
+import sauceDemoTests.BaseTest;
 
-public class CloseWrapMenuBtnTest {
-    @ParameterizedTest
-    @CsvSource(value = {"standard_user",
-            "visual_user",
-            "problem_user",
-            "error_user",
-            "performance_glitch_user"})
-    public void checkCloseMenuBtn(String username) {
-        LoginPageSteps.open("https://www.saucedemo.com")
+@DisplayName("Test on close(cross) button wrap menu ")
+public class CloseWrapMenuBtnTest extends BaseTest {
+
+    @DisplayName("Check close(cross) button wrap menu")
+    @Test
+    public void checkCloseMenuBtn() {
+        LoginSteps.open("https://www.saucedemo.com")
                 .waitPageLoading()
-                .successfulLogin(username,"secret_sauce")
+                .successfulLogin(usernameS, passwordS)
                 .clickOnLoginBtnSuccessful()
                 .checkURL("https://www.saucedemo.com/inventory.html")
-                .checkStaticElementsOnProductPage()
+                .checkStaticElementsOnAllItemsPage()
                 .clickOnWrapMenu()
                 .clickOnCloseWrapMenuBtn()
                 .checkClickOnCloseWrapMenuBtn();
