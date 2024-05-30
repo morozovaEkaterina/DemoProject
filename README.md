@@ -26,8 +26,6 @@ URL:[https://www.saucedemo.com/]()
 
 Перед запуском проекта через  _IntelliJ IDEA_ необходимо установить переменные окружения.
 
-#### _**IntelliJ IDEA**_
-
 Перейдите в "_Edit configurations..._" и в поле "Environment variables" установите следующие переменные окружения :
 
 ```passwordS=secret_sauce;usernameS=standard_user```
