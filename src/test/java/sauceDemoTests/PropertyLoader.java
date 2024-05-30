@@ -13,9 +13,13 @@ public class PropertyLoader {
                 if (value == null) {
                     value = System.getProperty(property.value());
                 }
+                System.out.println(property.value() + " : " + value);
                 if (value != null) {
                     field.setAccessible(true);
                     field.set(object, value);
+                    System.out.println(field.getName() + " : " + value);
+                } else{
+                    System.out.println("System property or environment variable " + property.value() + " is not set.");
                 }
             }
         }
