@@ -34,7 +34,7 @@ URL:[https://www.saucedemo.com/]()
 
 ## Запуск тестов
 
-_**IntelliJ IDEA**_
+#### _**IntelliJ IDEA**_
 
 Запуск тестов осуществляется через команду: `Run`
 
